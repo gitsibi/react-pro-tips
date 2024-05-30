@@ -2,74 +2,78 @@
 import React, { useState } from 'react';
 import './Form.css';
 
-const App = () => {
-  const [formData, setFormData] = useState({
+const RegistrationApp = () => {
+  const [userDetails, setUserDetails] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    contacts: '',
+    phoneNumber: '',
   });
-  const [messages, setMessages] = useState({
+
+  const [notification, setNotification] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    contacts: '',
+    phoneNumber: '',
     success: '',
   });
-  const handleChange = (e) => {
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setUserDetails((prevDetails) => ({
+      ...prevDetails,
       [name]: value,
     }));
-    setMessages((prevMessages) => ({
-      ...prevMessages,
+    setNotification((prevNotification) => ({
+      ...prevNotification,
       [name]: '',
     }));
   };
-  const handleSubmit = () => {
-    const newMessages = {};
-    if (formData.firstName === '') {
-      newMessages.firstName = 'Please enter your first name!';
+
+  const handleFormSubmit = () => {
+    const newNotification = {};
+    if (userDetails.firstName === '') {
+      newNotification.firstName = 'Please enter your first name!';
     }
-    if (formData.lastName === '') {
-      newMessages.lastName = 'Please enter your last name!';
+    if (userDetails.lastName === '') {
+      newNotification.lastName = 'Please enter your last name!';
     }
-    if (formData.email === '') {
-      newMessages.email = 'Please enter your email!';
+    if (userDetails.email === '') {
+      newNotification.email = 'Please enter your email!';
     }
-    if (formData.contacts === '') {
-      newMessages.contacts = 'Please enter your phone number!';
-    } else if (!/^\d{10}$/.test(formData.contacts)) {
-      newMessages.contacts = 'Invalid phone number. It should be exactly 10 digits!';
+    if (userDetails.phoneNumber === '') {
+      newNotification.phoneNumber = 'Please enter your phone number!';
+    } else if (!/^\d{10}$/.test(userDetails.phoneNumber)) {
+      newNotification.phoneNumber = 'Invalid phone number.';
     }
-    if (Object.keys(newMessages).length > 0) {
-      setMessages(newMessages);
-      setMessages((prevMessages) => ({ ...prevMessages, success: '' }));
+    if (Object.keys(newNotification).length > 0) {
+      setNotification(newNotification);
+      setNotification((prevNotification) => ({ ...prevNotification, success: '' }));
     } else {
-      setMessages({ success: 'Registration successful!' });
+      setNotification({ success: 'Registration successful!' });
     }
   };
+
   return (
-  <div className="container">
-    <div className="box">
-      {messages.success && <p className="success-message">{messages.success}</p>}
-      <form>
-        <div className="input-container">
-            <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange}/>
-            {messages.firstName && <p className="error">{messages.firstName}</p>}<br />
-            <input type="text" name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange}/>
-            {messages.lastName && <p className="error">{messages.lastName}</p>}<br />
-            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange}/>
-            {messages.email && <p className="error">{messages.email}</p>}<br />
-            <input type="text" name="contacts" placeholder="Phone Number" value={formData.contacts} onChange={handleChange}/>
-            {messages.contacts && <p className="error">{messages.contacts}</p>}
+    <div className="form-container">
+      <div className="form-box">
+        {notification.success && <p className="success-msg">{notification.success}</p>}
+        <form>
+          <div className="input-wrapper">
+            <input type="text" name="firstName" placeholder="First Name" value={userDetails.firstName} onChange={handleInputChange} />
+            {notification.firstName && <p className="error-msg">{notification.firstName}</p>}<br />
+            <input type="text" name="lastName" placeholder="Last Name" value={userDetails.lastName} onChange={handleInputChange} />
+            {notification.lastName && <p className="error-msg">{notification.lastName}</p>}<br />
+            <input type="email" name="email" placeholder="Email" value={userDetails.email} onChange={handleInputChange} />
+            {notification.email && <p className="error-msg">{notification.email}</p>}<br />
+            <input type="text" name="phoneNumber" placeholder="Phone Number" value={userDetails.phoneNumber} onChange={handleInputChange} />
+            {notification.phoneNumber && <p className="error-msg">{notification.phoneNumber}</p>}
           </div><br />
-        <button type="button" className="btn" onClick={handleSubmit}> Register </button>
-      </form>
+          <button type="button" className="submit-btn" onClick={handleFormSubmit}> Register </button>
+        </form>
+      </div>
     </div>
-  </div>
   );
 };
 
-export default App;
+export default RegistrationApp;
